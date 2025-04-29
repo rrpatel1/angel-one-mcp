@@ -64,3 +64,9 @@ TOKEN = "your_token"  # Optional
     }
 }
 ```
+
+## Results
+<img width="773" alt="Screenshot 2025-04-29 at 11 35 09 PM" src="https://github.com/user-attachments/assets/a302099b-2a00-41fe-ace0-0fd82e854e56" />
+<img width="770" alt="Screenshot 2025-04-29 at 11 37 03 PM" src="https://github.com/user-attachments/assets/90861d78-87b8-4f8a-a660-c5b48de84c42" />
+
+
