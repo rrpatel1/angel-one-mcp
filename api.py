@@ -50,6 +50,48 @@ def get_historical_data(
         logger.exception(f"Historic Api failed: {e}")
         return None
     
+
+@mcp.tool()
+def get_historical_data_multiple_stocks(
+    exchange: str,
+    symboltokens: list[str],
+    interval: str,
+    fromdate: str,
+    todate: str
+) -> Any:
+    """
+    Get historical candlestick data for multiple stocks from Angel One API.
+
+    Args:
+        exchange: The exchange code (e.g., "NSE").
+        symboltokens: The list of symbol tokens for the stocks.
+        interval: The time interval for the data (e.g., "ONE_MINUTE", "ONE_HOUR", "ONE_DAY").
+        fromdate: Start date and time in "YYYY-MM-DD HH:MM" format.
+        todate: End date and time in "YYYY-MM-DD HH:MM" format.
+    
+    Returns:
+        Historical data as a dictionary or None if an error occurs.
+    """
+    
+    # Call get_historical_data for each symbol token in parallel
+    results = []
+    for symboltoken in symboltokens:
+        params = {
+            "exchange": exchange,
+            "symboltoken": symboltoken,
+            "interval": interval,
+            "fromdate": fromdate,
+            "todate": todate
+        }
+        
+        try:
+            historical_data = smart_api.getCandleData(params)
+            results.append(historical_data)
+        except Exception as e:
+            logger.exception(f"Historic Api failed for {symboltoken}: {e}")
+            results.append(None)
+    return results
+
 @mcp.tool()
 def get_portfolio():
     """
@@ -177,5 +219,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
-    mcp.run(transport='stdio')
+    try:
+        main()
+        mcp.run(transport='stdio')
+    except Exception as e:
+        logger.exception(f"An error occurred: {e}")
+    finally:
+        mcp.close()
+        logout(smart_api, os.environ.get('CLIENT_ID'))
+        logger.info("MCP closed.")
