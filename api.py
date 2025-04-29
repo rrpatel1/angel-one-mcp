@@ -3,9 +3,66 @@ import pyotp
 from logzero import logger
 import os
 from dotenv import load_dotenv
+from typing import Any
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("angelone-mcp")
 
 # Load environment variables from .env file
 load_dotenv()
+
+
+@mcp.tool()
+def get_historical_data(
+    exchange: str,
+    symboltoken: str,
+    interval: str,
+    fromdate: str,
+    todate: str
+) -> Any:
+    """
+    Get historical candlestick data from Angel One API.
+
+    Args:
+        exchange: The exchange code (e.g., "NSE").
+        symboltoken: The symbol token for the stock.
+        interval: The time interval for the data (e.g., "ONE_MINUTE", "ONE_HOUR", "ONE_DAY").
+        fromdate: Start date and time in "YYYY-MM-DD HH:MM" format.
+        todate: End date and time in "YYYY-MM-DD HH:MM" format.
+    
+    Returns: 
+        Historical data as a dictionary or None if an error occurs.
+    """
+    
+    # Get historical data
+    params = {
+        "exchange": exchange,
+        "symboltoken": symboltoken,
+        "interval": interval,
+        "fromdate": fromdate,
+        "todate": todate
+    }
+    
+    try:
+        historical_data = smart_api.getCandleData(params)
+        return historical_data
+    except Exception as e:
+        logger.exception(f"Historic Api failed: {e}")
+        return None
+    
+@mcp.tool()
+def get_portfolio():
+    """
+    Get portfolio data from the Angel One API.
+
+    Returns:
+        Portfolio data as a dictionary or None if an error occurs.
+    """
+    try:
+        return smart_api.allholding()
+    except Exception as e:
+        logger.exception(f"Portfolio Api failed: {e}")
+        return None
 
 
 def initialize_api(api_key):
@@ -20,7 +77,6 @@ def generate_totp(token):
     except Exception as e:
         logger.error("Invalid Token: The provided token is not valid.")
         raise e
-
 
 def login(smart_api, client_id, password, totp, correlation_id=None):
     """Login to the Angel One API and return the session data"""
@@ -57,14 +113,6 @@ def setup_session(smart_api, session_data):
         'profile': profile
     }
 
-def get_portfolio(smart_api):
-    """Get portfolio data"""
-    try:
-        return smart_api.allholding()
-    except Exception as e:
-        logger.exception(f"Portfolio Api failed: {e}")
-        return None
-
 
 def get_historical_data(smart_api, params):
     """Get historical candlestick data"""
@@ -95,6 +143,7 @@ def main():
     token = os.environ.get('TOTP_TOKEN')
     
     # Initialize API
+    global smart_api
     smart_api = initialize_api(api_key)
     
     # Generate TOTP
@@ -122,17 +171,11 @@ def main():
         logger.info("Historical Data: %s", historical_data)
     else:
         logger.error("Failed to retrieve historical data.")
-
-    # Get portfolio data
-    portfolio_data = get_portfolio(smart_api)
-    if portfolio_data:
-        logger.info("Portfolio Data: %s", portfolio_data)
-    else:
-        logger.error("Failed to retrieve portfolio data.")
     
     # Logout
-    logout(smart_api, client_id)
+    # logout(smart_api, client_id)
 
 
 if __name__ == "__main__":
     main()
+    mcp.run(transport='stdio')
