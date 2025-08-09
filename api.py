@@ -1,4 +1,9 @@
-from SmartApi import SmartConnect
+try:
+    from SmartApi import SmartConnect
+except ImportError:
+    print("Warning: SmartApi not available. Please install smartapi-python")
+    SmartConnect = None
+
 import pyotp
 from logzero import logger
 import os
@@ -33,6 +38,9 @@ def get_historical_data(
     Returns: 
         Historical data as a dictionary or None if an error occurs.
     """
+    
+    if not SmartConnect:
+        return {"error": "SmartApi not available. Please install smartapi-python"}
     
     # Get historical data
     params = {
@@ -109,6 +117,9 @@ def get_portfolio():
 
 def initialize_api(api_key):
     """Initialize the SmartAPI connection with the API key"""
+    if not SmartConnect:
+        logger.error("SmartApi not available. Please install smartapi-python")
+        return None
     return SmartConnect(api_key)
 
 

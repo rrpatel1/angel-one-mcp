@@ -127,4 +127,31 @@ UPSTOX_API_SECRET="your_api_secret"  # Optional
 <img width="773" alt="Screenshot 2025-04-29 at 11 35 09 PM" src="https://github.com/user-attachments/assets/a302099b-2a00-41fe-ace0-0fd82e854e56" />
 <img width="770" alt="Screenshot 2025-04-29 at 11 37 03 PM" src="https://github.com/user-attachments/assets/90861d78-87b8-4f8a-a660-c5b48de84c42" />
 
+## Testing Your Setup
+
+### Test Upstox Setup
+Run the test script to verify your Upstox setup:
+```bash
+python test_upstox_setup.py
+```
+
+### Test Angel One Setup  
+```bash
+python test_credentials.py
+```
+
+## Quick Start
+
+### For Upstox Users
+1. Get API credentials from [Upstox Developer Portal](https://developer.upstox.com/)
+2. Generate access token through OAuth2 flow
+3. Create `.env` file with `UPSTOX_ACCESS_TOKEN`
+4. Run: `python upstox_api.py`
+
+### For Angel One Users
+1. Get API credentials from Angel One
+2. Create `test_credentials.py` with your credentials
+3. Run: `python api.py`
+
+See `UPSTOX_SETUP.md` for detailed Upstox setup instructions.
 
