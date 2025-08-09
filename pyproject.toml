@@ -1,7 +1,7 @@
 [project]
 name = "angelone-mcp"
 version = "0.1.0"
-description = "Add your description here"
+description = "Model Context Protocol implementation for Angel One trading platform, with Upstox integration planned"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

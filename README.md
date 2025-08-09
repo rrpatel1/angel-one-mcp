@@ -1,6 +1,6 @@
-# Angel One MCP (Model Context Protocol)
+# Angel One MCP (Model Context Protocol) + Upstox (Planned)
 
-This repository contains the Model Context Protocol implementation for Angel One trading platform, allowing you to interact with Angel One's trading APIs to get history data and get portfolio data.
+This repository contains the Model Context Protocol implementation for Angel One trading platform, with Upstox integration planned for future releases. The MCP allows you to interact with trading APIs to get historical data and portfolio information.
 
 ## Prerequisites
 
@@ -64,6 +64,27 @@ TOKEN = "your_token"  # Optional
     }
 }
 ```
+
+## Roadmap & Progress
+
+### Current Status
+- ✅ **Angel One Integration**: Fully implemented with historical data and portfolio support
+- 🚧 **Upstox Integration**: In progress - planned for future releases
+
+### Upcoming Features
+- [ ] **Upstox MCP Support**: Adding Upstox broker integration alongside Angel One
+  - Historical data fetching
+  - Portfolio management
+  - Real-time quotes (planned)
+- [ ] **Multi-broker Support**: Unified interface for multiple brokers
+- [ ] **Enhanced Documentation**: Comprehensive API documentation
+- [ ] **Testing Suite**: Automated tests for all broker integrations
+
+### How to Track Progress
+- Check this README for updates on integration status
+- See [PROGRESS.md](PROGRESS.md) for detailed development progress and technical notes
+- Monitor the repository for new commits and releases
+- Open issues for specific broker integration requests
 
 ## Results
 <img width="773" alt="Screenshot 2025-04-29 at 11 35 09 PM" src="https://github.com/user-attachments/assets/a302099b-2a00-41fe-ace0-0fd82e854e56" />
